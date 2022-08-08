@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: my-app-reverseproxy
+  name: my-app-reverseproxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: my-app-reverseproxy
+  template:
+    metadata:
+      labels:
+        service: my-app-reverseproxy
+    spec:
+      containers:
+      - image: wonderkin/reverseproxy:latest
+        name: my-app-reverseproxy
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "10240Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always
